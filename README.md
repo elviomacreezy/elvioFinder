@@ -27,6 +27,8 @@ Elvio Finder is a Python script that allows you to find locations based on latit
 3. The script will output the location address.
 
 Example:
+
+
 <img width="461" alt="image" src="https://github.com/user-attachments/assets/ce22e805-9f09-4266-a8a5-99f7df5b077c" />
 
 
