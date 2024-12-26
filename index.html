@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Finder</title>
+</head>
+<body>
+    <h1>Location Finder</h1>
+    <button onclick="getLocation()">Get My Location</button>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendLocationToServer, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendLocationToServer(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            fetch(`http://127.0.0.1:5000/get_location?lat=${latitude}&lon=${longitude}`)
+                .then(response => {
+                    if (response.status === 204) {
+                        console.log("Location details successfully sent to the server.");
+                    } else {
+                        console.error("Server returned an error.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error sending location to server:", error);
+                });
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
